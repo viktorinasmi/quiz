@@ -1,19 +1,17 @@
 import React from "react";
 import { Variant } from "./variant/Variant";
+
 // @ts-ignore
 import styles from "./Game.module.scss";
-import { questions } from "../../date/date";
-import { useState } from "react";
+import { questions } from "../../data/data";
 
-export const Game = () => {
-  const [step, setStep] = useState(0);
-  const question = questions[step];
+interface IGame {
+  question: any;
+  step: number;
+  onClick: (index: number) => void;
+}
 
-  const onClickVariant = (index: any) => {
-    console.log(step, index);
-    setStep(step + 1);
-  };
-
+export const Game = ({ question, onClick, step }: IGame) => {
   const percentage = Math.round((step / questions.length) * 100);
 
   return (
@@ -26,12 +24,8 @@ export const Game = () => {
       </div>
       <div className={styles.title}>{question?.title}</div>
       <div className={styles.wrapperItems}>
-        {question?.variants.map((text, index) => (
-          <Variant
-            onClick={() => onClickVariant(index)}
-            key={text}
-            answer={text}
-          />
+        {question?.variants.map((text: any, index: any) => (
+          <Variant onClick={() => onClick(index)} key={text} answer={text} />
         ))}
       </div>
     </div>
